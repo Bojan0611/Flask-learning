@@ -1,6 +1,11 @@
 from app import app
 
+from datetime import datetime
 from flask import render_template
+
+@app.template_filter("clean_date")
+def clean_date(dt):
+    return dt.strftime("%d %b %Y")
 
 @app.route("/")
 def index():
@@ -36,10 +41,17 @@ def jinja():
     def repeat(x, qty):
         return x*qty
     
+    date = datetime.utcnow()
+    
+    my_html = "<h1>THIS IS SOME HTML</h1>"
+    
+    suspicious = "<script>alert('you have got hacked!')</script>"
+    
     return render_template("public/jinja.html", my_name=my_name, age=age,
                            langs=langs, friends=friends, colours=colours,
                            cool=cool, GitRemote=GitRemote, repeat=repeat,
-                           my_remote=my_remote)
+                           my_remote=my_remote, date=date, my_html=my_html,
+                           suspicious=suspicious)
 
 @app.route("/about")
 def about():
